@@ -18,3 +18,7 @@ include_directories(${X11_INCLUDE_DIR})
 # Add the main executable and link files
 add_executable(cimg_lab src/main.cpp src/modules/gradient.cpp)
 target_link_libraries(cimg_lab ${X11_LIBRARIES})
+
+# Add new executable for blur operation
+add_executable(cimg_lab_blur src/main_blur.cpp src/modules/blur.cpp)
+target_link_libraries(cimg_lab_blur ${X11_LIBRARIES})

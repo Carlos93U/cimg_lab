@@ -6,10 +6,11 @@ import os
 # Directories for input and output images
 input_dir = "data/input/"
 output_dir = "data/output/"
-executable = "bin/cimg_lab"  # Path to the C++ executable
+gradient_executable = "bin/cimg_lab"  # Path to the C++ executable for gradient
+blur_executable = "bin/cimg_lab_blur"  # Path to the C++ executable for blur
 
 # Application title
-st.title("Image Gradient Calculator")
+st.title("Image Processing Application")
 
 # Option to upload an image or use the default image
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
@@ -28,17 +29,26 @@ elif use_default_image:
     # Use the default image
     input_path = os.path.join(input_dir, "eagle.jpg")
 
-# Button to calculate the gradient
-if st.button("Calculate Gradient"):
+# Add a selectbox for choosing the operation
+operation = st.selectbox("Choose an operation", ["Gradient", "Blur"])
+
+# Set the executable path based on the selected operation
+if operation == "Gradient":
+    executable = gradient_executable
+elif operation == "Blur":
+    executable = blur_executable
+
+# Button to calculate the chosen operation
+if st.button("Calculate"):
     if uploaded_file is not None or use_default_image:
-        # Run the C++ executable to process the image
+        # Run the selected C++ executable to process the image
         result = subprocess.run([executable, input_path, output_path])
 
         if result.returncode == 0:
-            # Display the resulting gradient image in streamlit
+            # Display the resulting processed image in Streamlit
             result_image = Image.open(output_path)
-            st.image(result_image, caption="Gradient Image")
-            st.success("Gradient calculation complete.")
+            st.image(result_image, caption=f"{operation} Image")
+            st.success(f"{operation} calculation complete.")
         else:
             st.error("There was an error processing the image.")
     else:
