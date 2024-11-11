@@ -1,7 +1,8 @@
 #me
 .idea/
 /cmake-build-debug/
-
+/data/output
+/venv
 # Prerequisites
 *.d
 
